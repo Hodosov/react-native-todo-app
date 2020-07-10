@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View, FlatList } from 'react-native';
 import { Navbar } from './src/Navbar';
 import { AddTodo } from './src/AddTodo';
+import { Todo } from './src/Todo';
 
 export default function App() {
 
@@ -15,16 +16,24 @@ export default function App() {
         }])
     }
 
+    const removeTodo = (id) => {
+        setTodos(prev => prev.filter((todo) => todo.id !== id))
+    }
+
     return (
         <View>
             <Navbar title='Todo App' />
             <View style={styles.container}>
                 <AddTodo onSubmit={addTodo} />
-                <View>
-                    {todos.map(todo => <Text key={todo.id}>{todo.title}</Text>)}
-                </View>
+                <FlatList 
+                style={styles.todoList}
+                keyExtractor={item => item.id}
+                data={todos}
+                renderItem={({item}) => (
+                    <Todo key={item.id} todo={item} onRemoveTodo={removeTodo} />
+                )}
+                />
             </View>
-
         </View>
     );
 }
@@ -32,5 +41,8 @@ export default function App() {
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 20
+    },
+    todoList: {
+        flexDirection: 'column'
     }
-});
+})

@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 
 export const Navbar = ({ title }) => {
+    
     return(
         <View style={styles.navbar}>
             <Text style={styles.text}>
