@@ -1,9 +1,9 @@
 import React from 'react'
-import { View, Text, StyleSheet, Button, Alert } from 'react-native'
+import { View, Text, StyleSheet, Button } from 'react-native'
 import { THEME } from '../theme'
 import { AppCard } from '../components/UI/AppCard'
 
-export const TodoScreen = ({ goBack, todo, removeTodo }) => {
+export const TodoScreen = ({ goBack, todo, onRemove }) => {
     return (
         <View style={styles.container}>
             <AppCard style={styles.card}>
@@ -23,8 +23,7 @@ export const TodoScreen = ({ goBack, todo, removeTodo }) => {
                     <Button
                         title='Удалить'
                         color={THEME.DANGER_COLOR}
-                        onPress={() => Alert.alert('удалить')}
-
+                        onPress={() => onRemove(todo.id)}
                     />
                 </View>
             </View>
