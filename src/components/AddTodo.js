@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { View, StyleSheet, TextInput, Button, Alert } from 'react-native'
 
-export const AddTodo = ({ onSubmit }) => {
+export const AddTodo = (props) => {
 
     const [value, setValue] = useState('')
 
     const pressHandler = () => {
         if (value.trim()) {
-            onSubmit(value)
+            props.onSubmit(value)
         } else {
             Alert.alert('название не может быть пустым!')
         }
