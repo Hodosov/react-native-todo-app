@@ -1,16 +1,33 @@
 import React, { useState } from 'react';
+import * as Font from 'expo-font'
+import { AppLoading } from 'expo'
 import { StyleSheet, View, Alert } from 'react-native';
 import { Navbar } from './src/components/Navbar';
 import { MainScreen } from './src/screens/MainScreen';
-import { TodoScreen } from './src/screens/TodoScreen'
+import { TodoScreen } from './src/screens/TodoScreen';
+
+async function loadApplication() {
+    await Font.loadAsync({
+        'Montserrat-Regular': require('./assets/fonts/Montserrat-Regular.ttf'),
+    })
+}
 
 export default function App() {
 
+    const [isReady, setIsReady] = useState(false)
     const [todoId, setTodoId] = useState(null)
     const [todos, setTodos] = useState([{
         id: '1',
         title: 'написать приложенеи'
     }])
+
+    if (!isReady) {
+        return <AppLoading 
+        startAsync={loadApplication} 
+        onError={err => alert(err)} 
+        onFinish={() => setIsReady(true)}
+        />
+    }
 
     const addTodo = (title) => {
 
