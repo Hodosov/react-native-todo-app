@@ -84,9 +84,3 @@ export default function App() {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    todoList: {
-        flexDirection: 'column'
-    }
-})
