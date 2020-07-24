@@ -1,7 +1,9 @@
-import React, {useReducer} from 'react'
+import React, {useReducer, useContext} from 'react'
+import { Alert } from 'react-native'
 import {TodoContext} from './todoContext'
 import {todoReducer} from './todoReducer'
 import { ADD_TODO, REMOVE_TODO, UPDATE_TODO } from '../types'
+import { ScreenContext } from '../screen/screenContext'
 
 export const TodoState = ({children}) => {
 
@@ -11,11 +13,36 @@ export const TodoState = ({children}) => {
             title: 'написать приложенеи'
         }]
     }
-
+    const { changeScreen } = useContext(ScreenContext)
     const [state, dispatch] = useReducer(todoReducer, initialState)
 
     const addTodo = (title) => dispatch({type: ADD_TODO, title})
-    const removeTodo = (id) => dispatch({type: REMOVE_TODO, id })
+
+    const todo = state.todos.find(t => t.id !== id)
+
+    const removeTodo = (id) => {
+                Alert.alert(
+            'Удаление элемента',
+            `Вы уверены что хотите удалить ${todo.title}?`,
+            [
+                {
+                    text: 'Отмена',
+                    style: 'cancel'
+                },
+                {
+                    text: 'Удалить',
+                    style: 'destructive',
+                    onPress: () => {
+                        changeScreen(null)
+                        dispatch({type: REMOVE_TODO, id }) 
+                    }
+                }
+            ],
+            { cancelable: true }
+        );
+      
+    }
+
     const updateTodo = (id, title) => dispatch({type: UPDATE_TODO, id, title})
 
     return(
