@@ -4,6 +4,10 @@ import { Todo } from '../components/Todo'
 import { View, FlatList, StyleSheet, Image, Dimensions } from 'react-native'
 import { TodoContext } from '../context/todo/todoContext'
 import { ScreenContext } from '../context/screen/screenContext'
+import { AppLoader } from '../components/UI/AppLoader'
+import { AppText } from '../components/UI/AppText'
+import { THEME } from '../theme'
+import { AppButton } from '../components/UI/AppButton'
 
 export const MainScreen = () => {
 
@@ -30,7 +34,16 @@ export const MainScreen = () => {
         }
     })
 
-   
+   if(loading) {
+       return <AppLoader />
+   }
+
+   if(error){
+   return <View style={styles.center}>
+       <AppText style={styles.error}>{error}</AppText>
+       <AppButton onPress={loadTodos}>Повторить</AppButton>
+       </View>
+   }
 
     let content = <View style={{ width: deviceWidth }}>
         <FlatList
@@ -78,6 +91,14 @@ const styles = StyleSheet.create({
         height: '100%',
         resizeMode: 'contain'
     },
-    todoList: {
+    center: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    error: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: THEME.DANGER_COLOR
     }
 })
