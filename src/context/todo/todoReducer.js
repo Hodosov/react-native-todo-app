@@ -1,4 +1,4 @@
-import { ADD_TODO, UPDATE_TODO, REMOVE_TODO } from "../types"
+import { ADD_TODO, UPDATE_TODO, REMOVE_TODO, SHOW_LOADER, HIDE_LOADER, CLEAR_ERROR, SHOW_ERROR, FETCH_TODOS } from "../types"
 
 export const todoReducer = (state, action) => {
 
@@ -7,7 +7,7 @@ export const todoReducer = (state, action) => {
             return {
                 ...state,
                 todos: [...state.todos, {
-                    id: Date.now().toString(),
+                    id: action.id,
                     title: action.title
                 }]
             }
@@ -28,6 +28,32 @@ export const todoReducer = (state, action) => {
                 ...state,
                 todos: state.todos.filter(todo => todo.id !== action.id)
             }
+
+        case SHOW_LOADER:
+            return {
+                ...state, loading: true
+            }
+
+        case HIDE_LOADER:
+            return {
+                ...state, loading: false
+            }
+
+        case CLEAR_ERROR:
+            return {
+                ...state, error: null
+            }
+
+        case SHOW_ERROR:
+            return {
+                ...state, error: action.error
+            }
+
+            case FETCH_TODOS:
+                return {
+                    ...state, todos: action.todos
+                }
+
         default:
             return state
     }
